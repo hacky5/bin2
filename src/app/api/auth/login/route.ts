@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { redis } from '@/lib/redis';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import * as jose from 'jose';
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-super-secret-key-for-testing';
 
@@ -24,7 +24,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 });
     }
     
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET_KEY, { expiresIn: '24h' });
+    const secret = new TextEncoder().encode(JWT_SECRET_KEY);
+    const token = await new jose.SignJWT({ id: user.id, role: user.role })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('24h')
+        .sign(secret);
     
     const response = NextResponse.json({
         user: { id: user.id, email: user.email, role: user.role } 
@@ -44,3 +48,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ message: 'An internal server error occurred' }, { status: 500 });
   }
 }
+

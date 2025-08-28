@@ -1,5 +1,3 @@
-import {clsx, type ClassValue} from 'clsx';
-import {twMerge} from 'tailwind-merge';
 import {redis} from '@/lib/redis';
 import {v4 as uuidv4} from 'uuid';
 import {Resend} from 'resend';
@@ -8,10 +6,6 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const RESEND_FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const AISENSY_API_KEY = process.env.AISENSY_API_KEY;
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 export const addLogEntry = async (
   userEmail: string,

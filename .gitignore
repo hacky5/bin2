@@ -1,57 +1,52 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Dependencies
+# dependencies
 /node_modules
 /.pnp
 .pnp.js
 
-# Testing
+# testing
 /coverage
 
-# Next.js
+# next.js
 /.next/
 /out/
 
-# Production
+# production
 /build
 
-# Misc
+# misc
 .DS_Store
 *.pem
 
-# Logs
+# debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
 
-# Local .env files
+# local env files
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Vercel
+# vercel
 .vercel
 
-# Mac
-.AppleDouble
-.LSOverride
+# typescript
+*.tsbuildinfo
+next-env.d.ts
 
-# Thumbnails
-._*
+# Editor directories and files
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
-# Files that might appear in the root of a volume
-.Trash-*
-.Spotlight-V100
-.Trashes
-
-# IDE files
-.idea/
-.vscode/
-
-# genkit
-.genkit/cache/
-.genkit/log/
-.genkit/traces/
-genkit.log
+# Tool-specific files/directories
+.idx/
+dos/
+.modified

@@ -1,14 +1,24 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import {NextResponse} from 'next/server';
+import type {NextRequest} from 'next/server';
 import * as jose from 'jose';
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || 'default-super-secret-key-for-testing';
+const JWT_SECRET_KEY =
+  process.env.JWT_SECRET_KEY || 'default-super-secret-key-for-testing';
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const {pathname} = request.nextUrl;
 
   // These routes are public and don't require authentication
-  if (pathname.startsWith('/api/auth/login') || pathname === '/api/issues/public' || (pathname === '/api/issues' && request.method === 'POST')) {
+  if (
+    pathname.startsWith('/api/auth/login') ||
+    pathname === '/api/issues/public' ||
+    (pathname === '/api/issues' && request.method === 'POST')
+  ) {
+    return NextResponse.next();
+  }
+
+  // Allow access to the root page without authentication
+  if (pathname === '/') {
     return NextResponse.next();
   }
   
@@ -18,8 +28,8 @@ export async function middleware(request: NextRequest) {
 
     if (!token) {
       return new NextResponse(
-        JSON.stringify({ message: 'Token is missing!' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({message: 'Token is missing!'}),
+        {status: 401, headers: {'Content-Type': 'application/json'}}
       );
     }
 
@@ -29,10 +39,10 @@ export async function middleware(request: NextRequest) {
       // The token is valid, continue to the API route
       return NextResponse.next();
     } catch (err) {
-      return new NextResponse(
-        JSON.stringify({ message: 'Token is invalid!' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new NextResponse(JSON.stringify({message: 'Token is invalid!'}), {
+        status: 401,
+        headers: {'Content-Type': 'application/json'},
+      });
     }
   }
 
@@ -41,5 +51,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/:path*'],
-}
+  matcher: ['/api/:path*', '/'],
+};

@@ -1,5 +1,3 @@
-import {NextResponse} from 'next/server';
-
-export function GET() {
-  return NextResponse.json({message: 'Welcome to your backend API'});
+export default function Page() {
+  return <h1>Welcome to your backend API</h1>;
 }
